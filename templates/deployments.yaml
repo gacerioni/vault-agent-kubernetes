@@ -14,7 +14,7 @@ kind: Secret
 metadata:
   name: {{.Values.name}}-approle-credentials
 data:
-  roleid: {{.Values.env.secrets.roleid | toString}}
+{{.Values.env.secrets | toYaml | indent 2}}
 ---
 {{- end}}
 

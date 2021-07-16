@@ -47,5 +47,5 @@ env:
         tls_disable = true
       }
   secrets:
-    roleid: '${secrets.getValue("vault_test_2")}'
+    roleid: '${secrets.getValue("${workflow.variables.roleid_secretname}")}'
     secretid: '${secrets.getValue("${workflow.variables.secretid_secretname}")}'
