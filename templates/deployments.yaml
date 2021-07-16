@@ -1,0 +1,110 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-agent
+data:
+  vault_agent_config: |
+    pid_file = "/etc/vault/pidfile"
+
+    vault {
+      address = "http://15.228.43.18:8200"
+      tls_skip_verify = true
+      retry {
+        num_retries = 5
+      }
+    }
+
+    auto_auth {
+      method "approle" {
+        config = {
+          role_id_file_path = "/etc/vault/credentials/roleid"
+          secret_id_file_path = "/etc/vault/credentials/secretid"
+          remove_secret_id_file_after_reading = false
+        }
+      }
+
+      sink "file" {
+        config = {
+          path = "/etc/vault/sink_shared/sink"
+        }
+      }
+
+    }
+
+    cache {
+      use_auto_auth_token = true
+    }
+
+
+    listener "tcp" {
+      address = "127.0.0.1:8100"
+      tls_disable = true
+    }
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vault-approle-credentials
+data:
+  roleid: NGVjYjMzZjMtZDhhOC04MmNhLTgxMWEtOGUyN2UxM2Y0MWJiCg==
+  secretid: ZTcyZDJhNjAtODcxMS0wZTI3LWViZDQtNWE4Y2VlNDU2ZDZkCg==
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+    name: vault-agent-sink-pvc
+spec:
+    accessModes:
+      - ReadWriteOnce
+    storageClassName: standard
+    resources:
+      requests:
+        storage: 10Mi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vault-agent
+  labels:
+    app: vault
+    usage: agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vault
+      usage: agent
+  template:
+    metadata:
+      labels:
+        app: vault
+        usage: agent
+    spec:
+      containers:
+      - name: vault
+        image: vault:1.8.0-rc2
+        volumeMounts:
+          - name: config-vol
+            mountPath: /etc/vault/config
+          - name: approle-credentials
+            mountPath: /etc/vault/credentials
+          - name: vault-agent-sink-shared
+            mountPath: /etc/vault/sink_shared
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do echo hello; sleep 10;done"]
+      volumes:
+      - name: config-vol
+        configMap:
+          name: vault-agent
+          items:
+          - key: vault_agent_config
+            path: vault_agent_config.hcl
+      - name: approle-credentials
+        secret:
+          secretName: vault-approle-credentials
+      - name: vault-agent-sink-shared
+        persistentVolumeClaim:
+          claimName: 'vault-agent-sink-pvc'
