@@ -66,6 +66,8 @@ spec:
           items:
           - key: vault_agent_config
             path: vault_agent_config.hcl
+          - key: test_vault_secrets
+            path: test_roleid
       - name: approle-credentials
         secret:
           secretName: {{.Values.name}}-approle-credentials
