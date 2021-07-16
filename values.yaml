@@ -14,7 +14,7 @@ env:
       pid_file = "/etc/vault/pidfile"
 
       vault {
-        address = "http://15.228.43.18:8200"
+        address = "${serviceVariable.vault_server_full_addr}"
         tls_skip_verify = true
         retry {
           num_retries = 5
