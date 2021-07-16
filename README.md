@@ -13,7 +13,7 @@
     <img src="images/harness_banner.jpeg" alt="Logo">
   </a>
 
-  <h3 align="center">Quick Harbor Repo Watcher - by Gabs the CSE</h3>
+  <h3 align="center">Kubernetes Vault Agent - by Gabs the SRE</h3>
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
