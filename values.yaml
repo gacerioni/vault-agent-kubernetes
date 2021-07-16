@@ -1,4 +1,4 @@
-name: vault-agent-workload
+name: vault-agent
 replicas: 1
 
 image: ${artifact.metadata.image}

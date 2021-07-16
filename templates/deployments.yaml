@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: vault-agent
+  name: {{.Values.name}}-config
 data:
 {{.Values.env.config | toYaml | indent 2}}
 ---
@@ -33,25 +33,22 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vault-agent
+  name: {{.Values.name}}-deployment
   labels:
-    app: vault
-    usage: agent
+    app: {{.Values.name}}
 spec:
-  replicas: 1
+  replicas: {{int .Values.replicas}}
   selector:
     matchLabels:
-      app: vault
-      usage: agent
+      app: {{.Values.name}}
   template:
     metadata:
       labels:
-        app: vault
-        usage: agent
+        app: {{.Values.name}}-deployment
     spec:
       containers:
-      - name: vault
-        image: vault:1.8.0-rc2
+      - name: {{.Values.name}}-container
+        image: {{.Values.image}}
         volumeMounts:
           - name: config-vol
             mountPath: /etc/vault/config
@@ -64,7 +61,7 @@ spec:
       volumes:
       - name: config-vol
         configMap:
-          name: vault-agent
+          name: {{.Values.name}}-config
           items:
           - key: vault_agent_config
             path: vault_agent_config.hcl
