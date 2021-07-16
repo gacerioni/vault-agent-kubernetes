@@ -1,4 +1,4 @@
-name: vault-agent
+name: vault-agent-${env.name}
 replicas: 1
 
 image: ${artifact.metadata.image}
