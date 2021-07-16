@@ -1,47 +1,13 @@
+{{- if .Values.env.config}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: vault-agent
 data:
-  vault_agent_config: |
-    pid_file = "/etc/vault/pidfile"
-
-    vault {
-      address = "http://15.228.43.18:8200"
-      tls_skip_verify = true
-      retry {
-        num_retries = 5
-      }
-    }
-
-    auto_auth {
-      method "approle" {
-        config = {
-          role_id_file_path = "/etc/vault/credentials/roleid"
-          secret_id_file_path = "/etc/vault/credentials/secretid"
-          remove_secret_id_file_after_reading = false
-        }
-      }
-
-      sink "file" {
-        config = {
-          path = "/etc/vault/sink_shared/sink"
-        }
-      }
-
-    }
-
-    cache {
-      use_auto_auth_token = true
-    }
-
-
-    listener "tcp" {
-      address = "127.0.0.1:8100"
-      tls_disable = true
-    }
-
+{{.Values.env.config | toYaml | indent 2}}
 ---
+{{- end}}
+
 apiVersion: v1
 kind: Secret
 metadata:
