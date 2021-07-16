@@ -6,7 +6,7 @@ image: ${artifact.metadata.image}
 createNamespace: true
 namespace: ${infra.kubernetes.namespace}
 
-pvcsinkfilename: vault-agent-sink-pvc
+pvcsinkfilename: vault-agent-sink-pvc-${env.name}
 
 env:
   config:
