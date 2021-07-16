@@ -44,7 +44,7 @@ metadata:
   name: cs-gabs-gcp-k8s-delegate-sshyjh
   namespace: harness-delegate
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       harness.io/app: harness-delegate
