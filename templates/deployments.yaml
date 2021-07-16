@@ -44,7 +44,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{.Values.name}}-workload
+        app: {{.Values.name}}
     spec:
       containers:
       - name: {{.Values.name}}-container
