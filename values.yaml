@@ -48,5 +48,5 @@ env:
       }
 
   secrets:
-    roleid: '${secrets.getValue("${workflow.variables.roleid_secretname}")}'
-    secretid: '${secrets.getValue("${workflow.variables.secretid_secretname}")}'
+    roleid: '${secrets.getValue("${serviceVariable.roleid_secretname}")}'
+    secretid: '${secrets.getValue("${serviceVariable.secretid_secretname}")}'
