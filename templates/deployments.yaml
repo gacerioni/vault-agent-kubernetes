@@ -59,6 +59,13 @@ spec:
             mountPath: /etc/vault/sink_shared
         command: ["/bin/sh"]
         args: ["-c", "vault agent -config /etc/vault/config/vault_agent_config.hcl"]
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - /etc/vault/sink_shared/sink
+          initialDelaySeconds: 5
+          periodSeconds: 5
       volumes:
       - name: config-vol
         configMap:
@@ -72,3 +79,4 @@ spec:
       - name: vault-agent-sink-shared
         persistentVolumeClaim:
           claimName: {{.Values.pvcsinkfilename}}
+     
