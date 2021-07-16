@@ -42,7 +42,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-The main goal of this project is to mantain a trustful source of a Harbor Repo Tags Watcher.
+The main goal of this project is to mantain a trustful source of a Vault Agent running in Kubernetes.
+Please refer to my tutorial:
+https://community.harness.io/t/vault-vault-agent-advanced-use-case-with-kubernetes-delegates-and-shared-volumes/790
 
 
 <!-- GETTING STARTED -->
@@ -50,42 +52,21 @@ The main goal of this project is to mantain a trustful source of a Harbor Repo T
 
 ### Prerequisites
 
-* [python3.6+](https://www.python.org/downloads/)
-
-* A Harness account, of course!
-
-* For MacOs Users, please double-check the SSL CERT
-   ```sh
-   cd /Applications/Python\ 3.9/ # PUT YOUR PYTHON VERSION
-   ./Install\ Certificates.command
-   ```
+Please refer to the tutorial: https://community.harness.io/t/vault-vault-agent-advanced-use-case-with-kubernetes-delegates-and-shared-volumes/790
 
 ### Installation and Usage
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/gabrielcerioni/nw_harbor_watcher.git
+   git clone https://github.com/gacerioni/vault-agent-kubernetes.git
    ```
-2. Install the project dependecies (we only use requests and logging on this one, you may skip)
-   ```sh
-   pip install -r requirements.txt
-   ```
-3. Export the required variables (Just to avoid Secrets, KMS, Vaults, etc, to keep this project simple)
-   ```sh
-   export HARNESS_HARBOR_USER=<USER>
-   export HARNESS_HARBOR_PWD=<PWD>
-   ```
-
-4. Enjoy ;)
-   ```sh
-   python3 main.py
-   <...>
-   ```
+2. Use it with Harness, of course
+    https://community.harness.io/t/vault-vault-agent-advanced-use-case-with-kubernetes-delegates-and-shared-volumes/790
 
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/gabrielcerioni/harness_graphql_labs/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/gacerioni/vault-agent-kubernetes/issues) for a list of proposed features (and known issues).
 
 
 
@@ -105,7 +86,7 @@ Contributions are what make the open source community such an amazing place to b
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the APACHE License. See `LICENSE` for more information.
 
 
 
@@ -114,30 +95,28 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Gabriel Cerioni - [@gabs.tar.gz](https://www.instagram.com/gabs.tar.gz/) - gacerioni@gmail.com
 
-Project Link: [https://github.com/gabrielcerioni/nw_harbor_watcher/](https://github.com/gabrielcerioni/nw_harbor_watcher/)
+Project Link: [https://github.com/gabrielcerioni/nw_harbor_watcher/](https://github.com/gacerioni/vault-agent-kubernetes/)
 
 <!-- Tech Stack -->
 ## Tech Stack
 
-* [Python](https://www.python.org/)
+* [Vault](https://www.vaultproject.io/)
 * [Harness](https://harness.io)
+* [Kubernetes](https://kubernetes.io/)
 
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/gabrielcerioni/nw_harbor_watcher.svg?style=for-the-badge
-[contributors-url]: https://github.com/gabrielcerioni/nw_harbor_watcher/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/gabrielcerioni/nw_harbor_watcher.svg?style=for-the-badge
-[forks-url]: https://github.com/gabrielcerioni/nw_harbor_watcher/network/members
-[stars-shield]: https://img.shields.io/github/stars/gabrielcerioni/nw_harbor_watcher.svg?style=for-the-badge
-[stars-url]: https://github.com/gabrielcerioni/nw_harbor_watcher/stargazers
-[issues-shield]: https://img.shields.io/github/issues/gabrielcerioni/nw_harbor_watcher.svg?style=for-the-badge
-[issues-url]: https://github.com/gabrielcerioni/nw_harbor_watcher/issues
-[license-shield]: https://img.shields.io/github/license/gabrielcerioni/nw_harbor_watcher.svg?style=for-the-badge
-[license-url]: https://github.com/gabrielcerioni/nw_harbor_watcher/blob/master/LICENSE
+[contributors-shield]: https://img.shields.io/github/contributors/gacerioni/vault-agent-kubernetes.svg?style=for-the-badge
+[contributors-url]: https://github.com/gacerioni/vault-agent-kubernetes/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/gacerioni/vault-agent-kubernetes.svg?style=for-the-badge
+[forks-url]: https://github.com/gacerioni/vault-agent-kubernetes/network/members
+[stars-shield]: https://img.shields.io/github/stars/gacerioni/vault-agent-kubernetes.svg?style=for-the-badge
+[stars-url]: https://github.com/gacerioni/vault-agent-kubernetes/stargazers
+[issues-shield]: https://img.shields.io/github/issues/gacerioni/vault-agent-kubernetes.svg?style=for-the-badge
+[issues-url]: https://github.com/gacerioni/vault-agent-kubernetes/issues
+[license-shield]: https://img.shields.io/github/license/gacerioni/vault-agent-kubernetes.svg?style=for-the-badge
+[license-url]: https://github.com/gacerioni/vault-agent-kubernetes/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/gabrielcerioni
-[api_postman_all]: images/Postman_API_ALL.png
-[api_postman_id]: images/Postman_API_by_id.png
-[api_postman_name]: images/Postman_API_by_name.png
