@@ -47,5 +47,5 @@ env:
         tls_disable = true
       }
   secrets:
-    roleid: NGVjYjMzZjMtZDhhOC04MmNhLTgxMWEtOGUyN2UxM2Y0MWJiCg==
-    secretid: ZTcyZDJhNjAtODcxMS0wZTI3LWViZDQtNWE4Y2VlNDU2ZDZkCg==
+    roleid: ${secrets.getValue(${workflow.variables.roleid_secretname})}
+    secretid: ${secrets.getValue(${workflow.variables.secretid_secretname})}
