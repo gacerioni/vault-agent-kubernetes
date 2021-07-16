@@ -58,7 +58,7 @@ spec:
           - name: vault-agent-sink-shared
             mountPath: /etc/vault/sink_shared
         command: ["/bin/sh"]
-        args: ["-c", "while true; do echo hello; sleep 10;done"]
+        args: ["-c", "vault agent -config /etc/vault/config/vault_agent_config.hcl"]
       volumes:
       - name: config-vol
         configMap:
