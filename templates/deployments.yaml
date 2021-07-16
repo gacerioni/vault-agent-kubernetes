@@ -21,7 +21,7 @@ data:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-    name: {{Values.pvcsinkfilename}}
+    name: {{.Values.pvcsinkfilename}}
 spec:
     accessModes:
       - ReadWriteOnce
