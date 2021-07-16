@@ -8,19 +8,20 @@ data:
 ---
 {{- end}}
 
+{{- if .Values.env.secrets}}
 apiVersion: v1
 kind: Secret
 metadata:
-  name: vault-approle-credentials
+  name: {{.Values.name}}-approle-credentials
 data:
-  roleid: NGVjYjMzZjMtZDhhOC04MmNhLTgxMWEtOGUyN2UxM2Y0MWJiCg==
-  secretid: ZTcyZDJhNjAtODcxMS0wZTI3LWViZDQtNWE4Y2VlNDU2ZDZkCg==
-
+{{.Values.env.secrets | toYaml | indent 2}}
 ---
+{{- end}}
+
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-    name: vault-agent-sink-pvc
+    name: {{Values.pvcsinkfilename}}
 spec:
     accessModes:
       - ReadWriteOnce
@@ -67,7 +68,7 @@ spec:
             path: vault_agent_config.hcl
       - name: approle-credentials
         secret:
-          secretName: vault-approle-credentials
+          secretName: {{.Values.name}}-approle-credentials
       - name: vault-agent-sink-shared
         persistentVolumeClaim:
-          claimName: 'vault-agent-sink-pvc'
+          claimName: {{.Values.pvcsinkfilename}}

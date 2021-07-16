@@ -6,6 +6,8 @@ image: ${artifact.metadata.image}
 createNamespace: true
 namespace: ${infra.kubernetes.namespace}
 
+pvcsinkfilename: vault-agent-sink-pvc
+
 env:
   config:
     vault_agent_config: |
@@ -46,4 +48,4 @@ env:
       }
   secrets:
     roleid: NGVjYjMzZjMtZDhhOC04MmNhLTgxMWEtOGUyN2UxM2Y0MWJiCg==
-    secretid: NGVjYjMzZjMtZDhhOC04MmNhLTgxMWEtOGUyN2UxM2Y0MWJiCg==
+    secretid: ZTcyZDJhNjAtODcxMS0wZTI3LWViZDQtNWE4Y2VlNDU2ZDZkCg==
