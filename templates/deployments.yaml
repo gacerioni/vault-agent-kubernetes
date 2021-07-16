@@ -79,4 +79,4 @@ spec:
       - name: vault-agent-sink-shared
         persistentVolumeClaim:
           claimName: {{.Values.pvcsinkfilename}}
-     
+      restartPolicy: Always
