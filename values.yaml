@@ -47,5 +47,5 @@ env:
         tls_disable = true
       }
   secrets:
-    roleid: '${secrets.getValue("${workflow.variables.roleid_secretname}")}'
+    roleid: '${secrets.getValue("vault_agent_kubernetes_roleid")}'
     secretid: '${secrets.getValue("${workflow.variables.secretid_secretname}")}'
