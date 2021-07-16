@@ -1,0 +1,166 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: harness-delegate
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: harness-delegate-cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: harness-delegate
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cs-gabs-gcp-k8s-delegate-proxy
+  namespace: harness-delegate
+type: Opaque
+data:
+  # Enter base64 encoded username and password, if needed
+  PROXY_USER: ""
+  PROXY_PASSWORD: ""
+
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    harness.io/app: harness-delegate
+    harness.io/account: sshyjh
+    harness.io/name: cs-gabs-gcp-k8s-delegate
+  # Name must contain the six letter account identifier: sshyjh
+  name: cs-gabs-gcp-k8s-delegate-sshyjh
+  namespace: harness-delegate
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      harness.io/app: harness-delegate
+      harness.io/account: sshyjh
+      harness.io/name: cs-gabs-gcp-k8s-delegate
+  serviceName: ""
+  template:
+    metadata:
+      labels:
+        harness.io/app: harness-delegate
+        harness.io/account: sshyjh
+        harness.io/name: cs-gabs-gcp-k8s-delegate
+    spec:
+      containers:
+      - image: harness/delegate:latest
+        imagePullPolicy: Always
+        name: harness-delegate-instance
+        volumeMounts:
+        - name: vault-agent-sink-shared-dev
+          mountPath: /etc/vault/delegate_sink_shared
+        resources:
+          limits:
+            cpu: "250m"
+            memory: "2Gi"
+        readinessProbe:
+          exec:
+            command:
+              - test
+              - -s
+              - delegate.log
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        livenessProbe:
+          exec:
+            command:
+              - bash
+              - -c
+              - '[[ -e /opt/harness-delegate/msg/data/watcher-data && $(($(date +%s000) - $(grep heartbeat /opt/harness-delegate/msg/data/watcher-data | cut -d ":" -f 2 | cut -d "," -f 1))) -lt 300000 ]]'
+          initialDelaySeconds: 240
+          periodSeconds: 10
+          failureThreshold: 2
+        env:
+        - name: ACCOUNT_ID
+          value: SSHyJhwkS1ym9wSLGyw2aw
+        - name: ACCOUNT_SECRET
+          value: 82f873c0a1a52631b7ce937672edebda
+        - name: MANAGER_HOST_AND_PORT
+          value: https://app.harness.io
+        - name: WATCHER_STORAGE_URL
+          value: https://app.harness.io/public/prod/premium/watchers
+        - name: WATCHER_CHECK_LOCATION
+          value: current.version
+        - name: REMOTE_WATCHER_URL_CDN
+          value: https://app.harness.io/public/shared/watchers/builds
+        - name: DELEGATE_STORAGE_URL
+          value: https://app.harness.io
+        - name: DELEGATE_CHECK_LOCATION
+          value: delegateprod.txt
+        - name: DEPLOY_MODE
+          value: KUBERNETES
+        - name: DELEGATE_NAME
+          value: cs-gabs-gcp-k8s-delegate
+        - name: DELEGATE_PROFILE
+          value: "wwCztcb8RXe_BV-G9r3mrA"
+        - name: DELEGATE_TYPE
+          value: "KUBERNETES"
+        - name: PROXY_HOST
+          value: ""
+        - name: PROXY_PORT
+          value: ""
+        - name: PROXY_SCHEME
+          value: ""
+        - name: NO_PROXY
+          value: ""
+        - name: PROXY_MANAGER
+          value: "true"
+        - name: PROXY_USER
+          valueFrom:
+            secretKeyRef:
+              name: cs-gabs-gcp-k8s-delegate-proxy
+              key: PROXY_USER
+        - name: PROXY_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cs-gabs-gcp-k8s-delegate-proxy
+              key: PROXY_PASSWORD
+        - name: POLL_FOR_TASKS
+          value: "false"
+        - name: HELM_DESIRED_VERSION
+          value: ""
+        - name: CF_PLUGIN_HOME
+          value: ""
+        - name: USE_CDN
+          value: "true"
+        - name: CDN_URL
+          value: https://app.harness.io
+        - name: JRE_VERSION
+          value: 1.8.0_242
+        - name: HELM3_PATH
+          value: ""
+        - name: HELM_PATH
+          value: ""
+        - name: KUSTOMIZE_PATH
+          value: ""
+        - name: ENABlE_CE
+          value: "false"
+        - name: GRPC_SERVICE_ENABLED
+          value: "false"
+        - name: GRPC_SERVICE_CONNECTOR_PORT
+          value: "0"
+        - name: MANAGER_SERVICE_SECRET
+          value: "IC04LYMBf1lDP5oeY4hupxd4HJhLmN6azUku3xEbeE3SUx5G3ZYzhbiwVtK4i7AmqyU9OZkwB4v8E9qM"
+        - name: PATH
+          value: /root/.asdf/shims:/root/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      restartPolicy: Always
+      volumes:
+      - name: vault-agent-sink-shared-dev
+        persistentVolumeClaim:
+          claimName: vault-agent-sink-pvc-dev
